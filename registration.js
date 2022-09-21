@@ -20,14 +20,21 @@ document.getElementById('register').addEventListener('click',function(){
     console.log(user_data)
 
 
+    //fetch('http://localhost:5000/register',{
+        //method:'POST',
+       //headers:{
+            //'content-type':'application/json'
+        //},
+        //body:JSON.stringify(user_data)
+    //})
+    axios.post('http://localhost:5000/register', user_data)
+            .then(res => {
+                // //console.log(res);
+                if (res.data.insertedId) {
+                    alert('registration successful')
+                    window.location.href = 'log-in-page.html';
 
+                }
+            })
 
-
-    fetch('http://localhost:5000/register',{
-        method:'POST',
-        headers:{
-            'content-type':'application/json'
-        },
-        body:JSON.stringify(user_data)
-    })
 })

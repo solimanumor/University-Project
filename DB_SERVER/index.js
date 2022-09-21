@@ -32,6 +32,12 @@ async function run() {
             res.json(result);
             res.send('POST request to the homepage')
           })
+
+          app.get('/register_data', async (req, res) => {
+            const cursor = registerCollection.find({});
+            const result = await cursor.toArray();
+            res.json(result);
+        });
     }
     finally {
         // await client.close();
