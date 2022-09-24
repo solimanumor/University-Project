@@ -37,6 +37,18 @@ document.getElementById('register').addEventListener('click',function(){
                 }
             })
 
+           if(second_user_data){
+
+           
+                axios.post('http://localhost:5000/register2', second_user_data)
+                .then(res => {
+                // //console.log(res);
+                
+            })
+    
+             }
+
+
             setTimeout(waiting_time,5000);
             function waiting_time(){
                 axios.post('http://localhost:5000/second_register', second_user_data)
@@ -48,9 +60,9 @@ document.getElementById('register').addEventListener('click',function(){
 
                 }
             })
-                
-                
-                
-            }
+    
+             }
 
+             
 })
+

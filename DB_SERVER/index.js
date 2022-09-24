@@ -24,22 +24,41 @@ async function run() {
         console.log("database connected");
         const database = client.db('db1')
         const registerCollection = database.collection('register_data');
+        const registerCollection2 = database.collection('register_data2');
 
         const second_database = client.db('db2')
         const second_registerCollection = second_database.collection('second_register_data');
-        
+//--------------------copy one collection to anouther collection function ------------
+        // registerCollection2.find().forEach(
+        //     function(x){
+        //         second_registerCollection.insert(x)
+        //     }
+        // );
+//------------------------------------------------------------------
         app.post('/register', async(req, res) => {
             console.log('register url hitting', req.body)
             const newUser = req.body;
             const result = await registerCollection.insertOne(newUser);
+            //const result2 = await registerCollection2.insertOne(newUser);
             
             res.json(result);
             
             
+            
           })
 
-        app.post('/second_register', async(req, res) => {
+          app.post('/register2', async(req, res) => {
             console.log('register url hitting', req.body)
+            const newUser = req.body;
+            const result2 = await registerCollection2.insertOne(newUser);
+            //const result2 = await registerCollection2.insertOne(newUser);
+            
+            res.json(result2);
+            
+            })
+
+        app.post('/second_register', async(req, res) => {
+            console.log('second register url hitting', req.body)
             const newUser = req.body;
             const result = await second_registerCollection.insertOne(newUser);
             
@@ -55,9 +74,13 @@ async function run() {
         app.delete('/second_register', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
+            console.log('proxy database deleted')
             const result = await second_registerCollection.deleteMany({});
             res.json(result);
         });
+
+        
+
     }
     finally {
         // await client.close();
@@ -73,3 +96,12 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`listening at ${port}`)
 })
+
+// app.post('/', async(req, res) => {
+            
+//     const newUser = req.body;
+//     const result = await registerCollection.copyTo(second_registerCollection);
+    
+//     res.json(result);
+    
+//   })

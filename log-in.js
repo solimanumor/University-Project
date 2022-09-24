@@ -1,4 +1,3 @@
-const { METHODS } = require("http");
 
 document.getElementById('log_in').addEventListener('click',function(){
     
@@ -7,18 +6,10 @@ document.getElementById('log_in').addEventListener('click',function(){
     
     const password = document.getElementById('password').value
 
-    var verify_email = email.replace(/[^a-zA-Z ]/g, "%");
+    var verify_email = email.replace(/[^a-zA-Z0-9@.]/g, "%");
     const result = verify_email.search("%");
-    if(result){
-
-        fetch(`http://localhost:5000/second_register`, {
-                method: 'DELETE'
-            })
-                .then(res => res.json())
-                .then()
-    }
-
-    else{
+            console.log(result)
+    if(result==-1){
 
         fetch('http://localhost:5000/second_register')
             .then(res => res.json())
@@ -29,10 +20,23 @@ document.getElementById('log_in').addEventListener('click',function(){
                         window.location.href = 'home.html';
                     }
                 })
-
-
                 
             })
+    }
+
+    else{
+
+        fetch(`http://localhost:5000/second_register`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then()
+
+
+
+
+
+        
     }
 
     
