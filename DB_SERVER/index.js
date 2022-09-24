@@ -24,18 +24,38 @@ async function run() {
         console.log("database connected");
         const database = client.db('db1')
         const registerCollection = database.collection('register_data');
+
+        const second_database = client.db('db2')
+        const second_registerCollection = second_database.collection('second_register_data');
         
         app.post('/register', async(req, res) => {
             console.log('register url hitting', req.body)
             const newUser = req.body;
             const result = await registerCollection.insertOne(newUser);
+            
             res.json(result);
-            res.send('POST request to the homepage')
+            
+            
           })
 
-          app.get('/register_data', async (req, res) => {
-            const cursor = registerCollection.find({});
+        app.post('/second_register', async(req, res) => {
+            console.log('register url hitting', req.body)
+            const newUser = req.body;
+            const result = await second_registerCollection.insertOne(newUser);
+            
+            res.json(result);
+            
+          })
+
+          app.get('/second_register', async (req, res) => {
+            const cursor = second_registerCollection.find({});
             const result = await cursor.toArray();
+            res.json(result);
+        });
+        app.delete('/second_register', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await second_registerCollection.deleteMany({});
             res.json(result);
         });
     }
